@@ -1,0 +1,9 @@
+{
+  "readmeMdPath": "README.md",
+  "changelogMdPath": "CHANGELOG.md",
+  "readmeTxtPath": "README.txt",
+  "styleFiles": ["style.scss", "style.css"],
+  "versionPattern": "Stable tag: (.*$)",
+  "versionReplacementPattern": "(^/\\*[^*]*\\bVersion:\\s*)([\\d.]+)",
+  "defaultVersion": "1.0.0"
+}

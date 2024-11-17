@@ -16,10 +16,8 @@ async function readFileContent(filePath) {
     return fs.promises.readFile(filePath, 'utf8');
 }
 
-function markdownToWordPressFormat(markdown) {
-    return markdown
-        .replace(/^# (.*$)/gim, '=== $1 ===')
-        .replace(/^## (.*$)/gim, '== $1 ==')
+function markdownToWordPressFormat(content) {
+    return content
         .replace(/^### (.*$)/gim, '= $1 =')
         .replace(/^\* (.*$)/gim, '* $1')
         .replace(/\[([^\[]+)\]\(([^\)]+)\)/gim, '$1 ($2)');
@@ -30,10 +28,11 @@ function removeFirstH1(content) {
 }
 
 async function updateStyleFiles(version, styleFiles, versionPattern) {
+    const versionRegex = new RegExp(`(${versionPattern})\\s*:\\s*\\d+\\.\\d+\\.\\d+`, 'm');
     for (const file of styleFiles) {
         try {
             const content = await readFileContent(file);
-            const updatedContent = content.replace(new RegExp(versionPattern, 'm'), `$1${version}`);
+            const updatedContent = content.replace(versionRegex, `$1: ${version}`);
             await fs.promises.writeFile(file, updatedContent, 'utf8');
             console.log(`${file} updated with version ${version}`);
         } catch (error) {

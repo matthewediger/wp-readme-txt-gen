@@ -3,7 +3,7 @@
     "marked": "^15.0.0"
   },
   "name": "wp-readme-txt-gen",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "`wp-readme-txt-gen` is an npm module used to convert your `README.md` and `CHANGELOG.md` files into a WordPress style `README.txt`.",
   "main": "index.js",
   "bin": {

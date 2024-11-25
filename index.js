@@ -28,7 +28,7 @@ function removeFirstH1(content) {
 }
 
 async function updateStyleFiles(version, styleFiles, versionPattern) {
-    const versionRegex = new RegExp(`(${versionPattern})\\s*:\\s*(\\s*)\\d+\\.\\d+\\.\\d+`, 'm');
+    const versionRegex = new RegExp(`(${versionPattern})\\s*:\\s(\\s*)\\d+\\.\\d+\\.\\d+`, 'm');
     for (const file of styleFiles) {
         try {
             const content = await readFileContent(file);

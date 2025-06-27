@@ -1,7 +1,7 @@
 {
   "readmeMdPath": "README.md",
   "changelogMdPath": "CHANGELOG.md",
-  "readmeTxtPath": "README.txt",
+  "readmeTxtPath": "readme.txt",
   "styleFiles": ["style.css", "style.scss"],
   "phpFiles": ["plugin.php"],
   "versionPattern": "Version",

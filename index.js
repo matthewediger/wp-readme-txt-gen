@@ -140,6 +140,14 @@ async function generateReadme() {
 
 // Execute when run from the command line
 if (require.main === module) {
+  const args = process.argv.slice(2);
+  
+  if (args.includes('--version') || args.includes('-v')) {
+    const packageJson = require('./package.json');
+    console.log(packageJson.version);
+    process.exit(0);
+  }
+  
   (async () => {
     await generateReadme();
   })();

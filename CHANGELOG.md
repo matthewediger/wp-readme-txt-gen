@@ -4,15 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [1.6.0] - 2026-02-24
 
-## [1.5.0]
+### Fixed
+
+- Link renderer updated for marked v5+ API (single token object instead of positional params) — fixes `undefined ([object Object])` output
+- Bare URL autolinks no longer duplicate as `url (url)`
+- Stable tag regex now tolerates `**bold**` wrapping in README.md header fields
+
+### Added
+
+- Code block support (4-space indented output)
+- Ordered list support (numbered bullets instead of always `*`)
+- Inline `<code>` rendering via custom `codespan` renderer
+- `<em>` and `<strong>` inline renderers (strong strips to plain text for WordPress readme.txt compatibility)
+- Pass-through for raw HTML blocks and horizontal rules
+
+## [1.5.0] - 2025-06-27
 
 ### Added
 
 - Added --version and -v command line flags to display package version.
 
-## [1.4.1]
+## [1.4.1] - 2025-06-27
 
 ### Fixed
 

@@ -36,8 +36,16 @@ function markdownToWordPressFormat(content) {
         }
         lastLineBreak = true;
       } else if (token.type === 'list') {
-        for (const item of token.items) {
-          output += `* ${marked.parseInline(item.text)}\n`;
+        token.items.forEach((item, i) => {
+          const bullet = token.ordered ? `${token.start + i}.` : '*';
+          output += `${bullet} ${marked.parseInline(item.text)}\n`;
+        });
+        output += '\n';
+        lastLineBreak = true;
+      } else if (token.type === 'code') {
+        const lines = token.text.split('\n');
+        for (const line of lines) {
+          output += `    ${line}\n`;
         }
         output += '\n';
         lastLineBreak = true;
@@ -53,15 +61,34 @@ function markdownToWordPressFormat(content) {
       } else if (token.type === 'blockquote') {
         output += '> ' + token.text + '\n\n';
         lastLineBreak = true;
+      } else if (token.type === 'html') {
+        output += token.raw;
+        lastLineBreak = true;
+      } else if (token.type === 'hr') {
+        output += '\n---\n\n';
+        lastLineBreak = true;
       }
     }
   }
 
-  // Custom renderer for inline links: convert [text](url) to text (url)
+  // Custom renderer for inline elements (marked v5+ uses single token object)
   const renderer = {
-    link(href, title, text) {
+    link({ href, text }) {
+      // Bare URLs (autolinks) — don't duplicate as "url (url)"
+      if (text === href || text === `<a href="${href}">${href}</a>`) {
+        return href;
+      }
       return `${text} (${href})`;
-    }
+    },
+    strong({ text }) {
+      return text;
+    },
+    em({ text }) {
+      return `<em>${text}</em>`;
+    },
+    codespan({ text }) {
+      return `<code>${text}</code>`;
+    },
   };
 
   marked.use({ renderer });
@@ -119,7 +146,7 @@ async function generateReadme() {
       readFileContent(config.changelogMdPath),
     ]);
 
-    const stableTagRegex = new RegExp(`${config.stableTagPattern}\\s*:\\s*(\\d+\\.\\d+\\.\\d+)`, 'm');
+    const stableTagRegex = new RegExp(`\\*{0,2}${config.stableTagPattern}\\*{0,2}\\s*:\\s*\\*{0,2}\\s*(\\d+\\.\\d+\\.\\d+)`, 'm');
     const stableTagMatch = readmeContent.match(stableTagRegex);
     const version = stableTagMatch ? stableTagMatch[1] : '0.1.0';
     console.log(`Extracted Stable tag version: ${version}`);
